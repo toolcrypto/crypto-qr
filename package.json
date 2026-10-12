@@ -1,0 +1,80 @@
+{
+  "name": "crypto-qr",
+  "version": "0.1.0",
+  "description": "Payment QR codes for crypto: checks the address, writes the payment link in the chain's own standard, draws the code as SVG or PNG.",
+  "keywords": [
+    "qr",
+    "qrcode",
+    "crypto",
+    "cryptocurrency",
+    "payment",
+    "address-validation"
+  ],
+  "license": "MIT",
+  "author": "toolcrypto",
+  "homepage": "https://github.com/toolcrypto/crypto-qr#readme",
+  "bugs": "https://github.com/toolcrypto/crypto-qr/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/toolcrypto/crypto-qr.git"
+  },
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./unchecked": {
+      "types": "./dist/unchecked.d.ts",
+      "default": "./dist/unchecked.js"
+    },
+    "./logos": {
+      "types": "./dist/logos/index.d.ts",
+      "default": "./dist/logos/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "unpkg": "./dist/crypto-qr.min.js",
+  "jsdelivr": "./dist/crypto-qr.min.js",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "prebuild": "node -e \"fs.rmSync('dist', { recursive: true, force: true })\"",
+    "build": "tsc -p tsconfig.build.json && node scripts/bundle.mjs",
+    "check": "biome check --error-on-warnings && tsc && vitest run",
+    "format": "biome check --write",
+    "logos": "node scripts/logos.mjs && biome check --write src/logos/marks.ts",
+    "test": "vitest run",
+    "prepublishOnly": "npm run check && npm run build && publint"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "dependencies": {
+    "@noble/hashes": "2.4.0",
+    "qr": "0.7.2"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.5.15",
+    "@noble/curves": "^2.4.0",
+    "@scure/base": "^2.4.0",
+    "@types/node": "^26.6.5",
+    "@web3icons/core": "^4.0.58",
+    "esbuild": "^0.28.2",
+    "jsqr": "^1.4.0",
+    "publint": "^0.3.25",
+    "sharp": "^0.35.5",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.3",
+    "zxing-wasm": "^3.1.5"
+  },
+  "allowScripts": {
+    "esbuild": false,
+    "fsevents": false
+  }
+}
