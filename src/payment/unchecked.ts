@@ -16,7 +16,7 @@ const trust: Vouch = (address) => {
  *
  * The addresses of the payee and of a token are not checked: they go into the
  * text as they are given, typo included. They have to be in the spelling that
- * `validateAddress` of `crypto-qr` returns.
+ * `validateAddress`, in the main entry, returns.
  *
  * @throws PaymentError when there is no address, or the token or amount is not usable.
  */

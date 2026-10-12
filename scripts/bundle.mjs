@@ -5,7 +5,9 @@ import { readFile } from 'node:fs/promises'
 import { build } from 'esbuild'
 
 const root = new URL('..', import.meta.url)
-const { version, homepage } = JSON.parse(await readFile(new URL('package.json', root), 'utf8'))
+const { name, version, homepage } = JSON.parse(
+  await readFile(new URL('package.json', root), 'utf8'),
+)
 const { origin, pathname } = new URL(homepage)
 
 const NOBLE = '@noble/hashes, MIT License, Copyright (c) 2022 Paul Miller (paulmillr.com)'
@@ -16,17 +18,17 @@ const QR = 'qr, MIT License, Copyright (c) 2023 Paul Miller (paulmillr.com)'
  * notice esbuild does not find in the code itself and keep on its own.
  */
 const BUNDLES = [
-  { name: 'crypto-qr.min', entry: 'dist/index.js', includes: [NOBLE, QR] },
+  { file: 'crypto-qr.min', entry: 'dist/index.js', includes: [NOBLE, QR] },
   // Nothing is hashed where no address is checked.
-  { name: 'crypto-qr-unchecked.min', entry: 'dist/unchecked.js', includes: [QR] },
-  { name: 'crypto-qr-logos.min', entry: 'dist/logos/index.js', includes: [] },
+  { file: 'crypto-qr-unchecked.min', entry: 'dist/unchecked.js', includes: [QR] },
+  { file: 'crypto-qr-logos.min', entry: 'dist/logos/index.js', includes: [] },
 ]
 
-for (const { name, entry, includes } of BUNDLES) {
-  const notices = [`crypto-qr ${version}, MIT License: ${origin}${pathname}`, ...includes]
+for (const { file, entry, includes } of BUNDLES) {
+  const notices = [`${name} ${version}, MIT License: ${origin}${pathname}`, ...includes]
   await build({
     absWorkingDir: root.pathname,
-    entryPoints: { [name]: entry },
+    entryPoints: { [file]: entry },
     outdir: 'dist',
     bundle: true,
     format: 'esm',

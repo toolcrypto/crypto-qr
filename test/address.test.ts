@@ -35,7 +35,7 @@ describe('validateAddress', () => {
   it('says what to pass when it is given a chain’s name, or the chain first', () => {
     expect(() => validateAddress(BTC, 'bitcoin' as never)).toThrow(TypeError)
     expect(() => validateAddress(BTC, undefined as never)).toThrow(
-      'Pass a chain imported from "crypto-qr", such as `bitcoin`',
+      'Pass a chain of the main entry, such as `bitcoin`',
     )
     expect(() => validateAddress(bitcoin as never, BTC as never)).toThrow(TypeError)
   })

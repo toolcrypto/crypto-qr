@@ -10,7 +10,7 @@ export interface SvgOptions extends QrStyle {
   /** Module style. `rounded` and `dots` also round the three finder patterns. */
   shape?: QrShape | undefined
   /**
-   * A logo for the centre: one from `crypto-qr/logos`, shapes of your own, or
+   * A logo for the centre: one from the logos entry, shapes of your own, or
    * the address of an image. The code is then encoded at level Q or higher.
    */
   logo?: QrLogo | undefined

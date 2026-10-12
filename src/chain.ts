@@ -193,7 +193,7 @@ export type UriReader = (rest: string, chains: readonly Chain[]) => Decoded | un
 
 /**
  * A chain: what it is called, and behind that how it writes a payment request
- * and, unless it comes from `crypto-qr/unchecked`, how it checks an address.
+ * and, unless it comes from the unchecked entry, how it checks an address.
  * Import the ones you need; a bundler leaves the others out.
  */
 export interface Chain<Ticker extends string = string> {

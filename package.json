@@ -1,5 +1,5 @@
 {
-  "name": "crypto-qr",
+  "name": "@toolcrypto/crypto-qr",
   "version": "0.1.0",
   "description": "Payment QR codes for crypto: checks the address, writes the payment link in the chain's own standard, draws the code as SVG or PNG.",
   "keywords": [
@@ -43,6 +43,9 @@
     "dist",
     "src"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "prebuild": "node -e \"fs.rmSync('dist', { recursive: true, force: true })\"",
     "build": "tsc -p tsconfig.build.json && node scripts/bundle.mjs",

@@ -7,8 +7,8 @@ import { type AddressResult, type Chain, noAddress } from './chain.js'
 export function validateAddress(address: string, chain: Chain): AddressResult {
   if (typeof chain?.checkAddress !== 'function') {
     throw new TypeError(
-      'Pass a chain imported from "crypto-qr", such as `bitcoin`: ' +
-        'not its name, nor a chain from "crypto-qr/unchecked".',
+      'Pass a chain of the main entry, such as `bitcoin`: ' +
+        'not its name, nor a chain of the unchecked entry.',
     )
   }
   const text = address.trim()

@@ -19,21 +19,21 @@ import { BTC, BTC_TESTNET, EVM, TRX, XRP } from '../addresses.js'
 import { refusal } from '../helpers.js'
 import { REQUESTS, summary } from './requests.js'
 
-/** The chain of the same id in `crypto-qr/unchecked`. */
+/** The chain of the same id in the unchecked entry. */
 function twin(chain: Chain): Chain {
   const found = unchecked.chains.find(({ id }) => id === chain.id)
-  if (!found) throw new Error(`${chain.id} is missing from crypto-qr/unchecked`)
+  if (!found) throw new Error(`${chain.id} is missing from the unchecked entry`)
   return found
 }
 
 const TYPO = `${BTC.slice(0, -1)}m`
 
-describe('crypto-qr/unchecked: chains', () => {
-  it('lists the chains of crypto-qr, in the same order', () => {
+describe('the unchecked entry: chains', () => {
+  it('lists the chains of the main entry, in the same order', () => {
     expect(unchecked.chains.map((chain) => chain.id)).toEqual(chains.map((chain) => chain.id))
   })
 
-  it.each(chains)('describes $name as crypto-qr does, short of its address check', (chain) => {
+  it.each(chains)('describes $name as the main entry does, short of its address check', (chain) => {
     const trusting = twin(chain)
     expect(trusting).not.toHaveProperty('checkAddress')
     expect(chain).toEqual({ ...trusting, checkAddress: expect.any(Function) })
@@ -49,7 +49,7 @@ describe('crypto-qr/unchecked: chains', () => {
   })
 })
 
-describe('crypto-qr/unchecked: buildPayment', () => {
+describe('the unchecked entry: buildPayment', () => {
   const requests: PaymentRequest[] = [
     ...REQUESTS,
     { chain: tron, address: TRX, token: 'USDT', amount: '10', memo: 'ref' },
@@ -57,7 +57,7 @@ describe('crypto-qr/unchecked: buildPayment', () => {
   ]
 
   it.each(requests.map((request) => [summary(request), request] as const))(
-    'writes what crypto-qr writes on %s',
+    'writes what the main entry writes on %s',
     (_summary, request) => {
       const trusting = { ...request, chain: twin(request.chain) }
       expect(unchecked.buildPayment(trusting)).toEqual(buildPayment(request))
@@ -135,7 +135,7 @@ describe('crypto-qr/unchecked: buildPayment', () => {
   })
 })
 
-describe('crypto-qr/unchecked: paymentQr', () => {
+describe('the unchecked entry: paymentQr', () => {
   it('builds the payment and its code in one call', () => {
     const request = { chain: unchecked.bitcoin, address: BTC, amount: '0.001' }
     const { payment, svg } = unchecked.paymentQr(request, { shape: 'dots' })
@@ -144,7 +144,7 @@ describe('crypto-qr/unchecked: paymentQr', () => {
   })
 })
 
-describe('crypto-qr/unchecked: chains where an address is checked', () => {
+describe('the unchecked entry: chains where an address is checked', () => {
   it('are refused outright: nothing passes for checked that was not', () => {
     const uri = `bitcoin:${BTC}?amount=1`
     expect(() => validateAddress(BTC, unchecked.bitcoin)).toThrow(TypeError)
@@ -152,7 +152,7 @@ describe('crypto-qr/unchecked: chains where an address is checked', () => {
     expect(() => parsePayment(BTC, unchecked.chains)).toThrow(TypeError)
     expect(() => parsePayment(uri, unchecked.chains)).toThrow(TypeError)
     expect(() => buildPayment({ chain: unchecked.bitcoin, address: BTC })).toThrow(
-      'not its name, nor a chain from "crypto-qr/unchecked"',
+      'not its name, nor a chain of the unchecked entry',
     )
   })
 })

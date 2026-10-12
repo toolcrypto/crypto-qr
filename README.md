@@ -5,7 +5,7 @@ amount: it checks the address, writes the payment link in the chain's own
 standard and units, and draws the code as SVG or PNG.
 
 ```ts
-import { bitcoin, paymentQr } from 'crypto-qr'
+import { bitcoin, paymentQr } from '@toolcrypto/crypto-qr'
 
 const { svg, payment } = paymentQr({
   chain: bitcoin,
@@ -26,7 +26,7 @@ The addresses on this page are placeholders, which nobody holds the keys of.
 ## Install
 
 ```sh
-npm install crypto-qr
+npm install @toolcrypto/crypto-qr
 ```
 
 On Node it needs version 22.12 or later. Without a build step, a CDN that
@@ -34,7 +34,7 @@ serves npm packages has it as single files, dependencies included:
 
 ```html
 <script type="module">
-  import { paymentQr, tron } from 'https://cdn.jsdelivr.net/npm/crypto-qr@0.1.0/dist/crypto-qr.min.js'
+  import { paymentQr, tron } from 'https://cdn.jsdelivr.net/npm/@toolcrypto/crypto-qr@0.1.0/dist/crypto-qr.min.js'
 
   const address = 'TWGd9idELBV3is6rrtC5PQUhudiJYeCr7E'
   document.body.innerHTML = paymentQr({ chain: tron, address }).svg
@@ -51,14 +51,14 @@ same codes, without that code.
 
 | | Checks addresses | Takes them as given |
 | --- | --- | --- |
-| From npm | `crypto-qr` | `crypto-qr/unchecked` |
+| From npm | `@toolcrypto/crypto-qr` | `@toolcrypto/crypto-qr/unchecked` |
 | From a CDN | `dist/crypto-qr.min.js` | `dist/crypto-qr-unchecked.min.js` |
 | Whole library, compressed | 20.7 kB | 11.7 kB |
 | Bundled for a Bitcoin payment code | 12.4 kB | 9.1 kB |
 
 When in doubt, take the first: a typo in an address is money lost.
 [Without the address check](#without-the-address-check) says what the second
-leaves out. The logos are apart from both: `crypto-qr/logos`, or
+leaves out. The logos are apart from both: `@toolcrypto/crypto-qr/logos`, or
 `dist/crypto-qr-logos.min.js`.
 
 ## Why not a QR library and a template string
@@ -93,7 +93,7 @@ leaves out. The logos are apart from both: `crypto-qr/logos`, or
 format together, the EVM ones by chain id. Any other EVM chain takes one line:
 
 ```ts
-import { evm } from 'crypto-qr'
+import { evm } from '@toolcrypto/crypto-qr'
 
 const linea = evm({ id: 'linea', name: 'Linea', chainId: 59144 })
 ```
@@ -178,7 +178,7 @@ alone, and returns undefined for anything a careful wallet would refuse: a
 wrong checksum, an amount given twice, a required parameter it does not know.
 
 ```ts
-import { chains, parsePayment } from 'crypto-qr'
+import { chains, parsePayment } from '@toolcrypto/crypto-qr'
 
 parsePayment('ethereum:0xDeaDbeefdEAdbeefdEadbEEFdeadbeEFdEaDbeeF@8453?value=1e15', chains)
 // { standard: 'EIP-681', chains: [base], address: '0xDeaD…', amount: '0.001', … }
@@ -211,12 +211,12 @@ has square modules and no logo: for another look, draw the SVG on a canvas.
 
 ### Logos
 
-`crypto-qr/logos` has the logo of every chain and listed token. It is a
-separate entry: a logo you do not import costs nothing.
+`@toolcrypto/crypto-qr/logos` has the logo of every chain and listed token.
+It is a separate entry: a logo you do not import costs nothing.
 
 ```ts
-import { bitcoinLogo, usdtLogo } from 'crypto-qr/logos' // these two alone
-import { logoFor } from 'crypto-qr/logos' // all 21 of them, 6 kB
+import { bitcoinLogo, usdtLogo } from '@toolcrypto/crypto-qr/logos' // these two alone
+import { logoFor } from '@toolcrypto/crypto-qr/logos' // all 21 of them, 6 kB
 
 paymentQr(request, { logo: logoFor(request) })
 qrSvg(text, { logo: 'https://example.com/logo.png' }) // or any image of yours
@@ -240,12 +240,12 @@ with does for a few logos: read your codes back before relying on it.
 
 ## Without the address check
 
-`crypto-qr/unchecked`, which is `dist/crypto-qr-unchecked.min.js` on a CDN, has
-the same chains, `buildPayment`, `paymentQr` and drawing functions, and none
-of the code that checks an address.
+`@toolcrypto/crypto-qr/unchecked`, which is `dist/crypto-qr-unchecked.min.js`
+on a CDN, has the same chains, `buildPayment`, `paymentQr` and drawing
+functions, and none of the code that checks an address.
 
 ```ts
-import { bitcoin, paymentQr } from 'crypto-qr/unchecked'
+import { bitcoin, paymentQr } from '@toolcrypto/crypto-qr/unchecked'
 ```
 
 An address goes into the code as it is given: a typo is not caught, a test
@@ -254,13 +254,13 @@ network is not refused, nothing is rewritten. It has to be in the spelling
 tokens are checked as usual.
 
 This build has no `validateAddress`, `detectChains` or `parsePayment`, and
-those of `crypto-qr` refuse its chains.
+those of the main entry refuse its chains.
 
 ## Size
 
 Bundled and minified by esbuild, compressed with Brotli, dependencies included:
 
-| Import | `crypto-qr` | `crypto-qr/unchecked` |
+| Import | Main entry | `/unchecked` |
 | --- | --- | --- |
 | `validateAddress`, `bitcoin` | 3.9 kB | |
 | `validateAddress`, every chain | 10.0 kB | |
@@ -269,7 +269,7 @@ Bundled and minified by esbuild, compressed with Brotli, dependencies included:
 | `paymentQr`, every chain | 18.4 kB | 10.9 kB |
 | everything, as the self-contained file | 20.7 kB | 11.7 kB |
 
-A logo from `crypto-qr/logos` adds 0.5 kB, all of them with `logoFor` 6.1 kB.
+A logo from the `/logos` entry adds 0.5 kB, all of them with `logoFor` 6.1 kB.
 
 There are two dependencies, [@noble/hashes](https://github.com/paulmillr/noble-hashes)
 and [qr](https://github.com/paulmillr/qr), pinned to exact versions. Neither

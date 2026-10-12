@@ -1,5 +1,5 @@
 // Every chain without the check of its addresses: what it is called, its coin,
-// its listed tokens and its payment URI. `crypto-qr/unchecked` exports these as
+// its listed tokens and its payment URI. The unchecked entry exports these as
 // they are; the files next to this one add to each the check of its addresses.
 import type { Chain, Token } from '../chain.js'
 import { bip321 } from '../uri/bip321.js'
