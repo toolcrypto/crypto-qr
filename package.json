@@ -1,6 +1,6 @@
 {
   "name": "@toolcrypto/crypto-qr",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Payment QR codes for crypto: checks the address, writes the payment link in the chain's own standard, draws the code as SVG or PNG.",
   "keywords": [
     "qr",
@@ -8,11 +8,20 @@
     "crypto",
     "cryptocurrency",
     "payment",
-    "address-validation"
+    "address-validation",
+    "bitcoin",
+    "ethereum",
+    "solana",
+    "tron",
+    "usdt",
+    "usdc",
+    "bip21",
+    "eip681",
+    "solana-pay"
   ],
   "license": "MIT",
   "author": "toolcrypto",
-  "homepage": "https://github.com/toolcrypto/crypto-qr#readme",
+  "homepage": "https://toolcrypto.github.io/crypto-qr/",
   "bugs": "https://github.com/toolcrypto/crypto-qr/issues",
   "repository": {
     "type": "git",
