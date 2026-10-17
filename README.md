@@ -21,6 +21,10 @@ It is an ES module with types, for browsers, Node, Deno, Bun and Workers. A
 chain is something you import: a bundler leaves out the ones you do not use,
 and with them the hashing and decoding only they need.
 
+To make a code without writing any, use
+[the generator](https://toolcrypto.github.io/crypto-qr/): it runs this library
+in your browser.
+
 The addresses on this page are placeholders, which nobody holds the keys of.
 
 ## Install
