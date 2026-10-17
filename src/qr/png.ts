@@ -37,13 +37,17 @@ function rgb(hex: string): number[] {
 
 /**
  * Encodes text as a QR code with square modules and returns it as PNG bytes:
- * one bit per pixel with a two-colour palette, so the file stays tiny.
+ * one bit per pixel with a two-colour palette, so the file stays tiny. The bytes
+ * can be the body of a `Response` or a `Blob` as they are.
  *
  * Needs `CompressionStream`: every current browser, Node, Workers, Deno, Bun.
  *
  * @throws RangeError when the text does not fit or an option is not usable.
  */
-export async function qrPng(text: string, options: PngOptions = {}): Promise<Uint8Array> {
+export async function qrPng(
+  text: string,
+  options: PngOptions = {},
+): Promise<Uint8Array<ArrayBuffer>> {
   const { scale = 8, margin = 4, foreground = '#000000', background = '#ffffff' } = options
   const matrix = encode(text, options.ecc ?? 'M')
   const side = matrix.length + 2 * within(margin, 0, 20, 'The margin')

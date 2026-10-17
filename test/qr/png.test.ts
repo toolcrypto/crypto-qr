@@ -62,6 +62,12 @@ describe('qrPng', () => {
     expect(png.length).toBeLessThan(3000)
   })
 
+  it('can be the body of a Response or a Blob as it is', async () => {
+    const png = await qrPng('hello')
+    expect(new Uint8Array(await new Response(png).arrayBuffer())).toEqual(png)
+    expect(new Blob([png], { type: 'image/png' }).size).toBe(png.length)
+  })
+
   it('refuses a scale out of range', async () => {
     await expect(qrPng('x', { scale: 0 })).rejects.toThrow(RangeError)
   })
